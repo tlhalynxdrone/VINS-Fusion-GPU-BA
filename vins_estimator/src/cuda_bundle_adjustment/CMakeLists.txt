@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 2.8.3)
 set(CUDA)
 set(CMAKE_CUDA_COMPILER /usr/local/cuda/bin/nvcc)
 set(CUDA_TOOLKIT_ROOT_DIR /usr/local/cuda/bin/nvcc)
-set(CMAKE_CUDA_ARCHITECTURES 52)
+set(CMAKE_CUDA_ARCHITECTURES 86) # Pour PC
+# set(CMAKE_CUDA_ARCHITECTURES 87) # Pour Orinx
 set(CMAKE_CUDA_FLAGS_RELEASE "-O3 -DNDEBUG -w")	# "-w" means "ignore all warnings"
 
 find_package(CUDA REQUIRED)

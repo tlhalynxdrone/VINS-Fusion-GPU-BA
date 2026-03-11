@@ -117,7 +117,7 @@ __device__ BlockRange GetJTJBlockRange(const BlockRange& left, const BlockRange&
 // ----------
 
 template<typename T>
-__device__ T MyAtomicAdd(T* address, T val) { return 0.0; }
+__device__ T MyAtomicAdd(T* address, T val) { return atomicAdd(address, val); }
 
 // specialization
 template<>
