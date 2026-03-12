@@ -57,7 +57,7 @@ __device__ void huber_loss(T delta, T err2, Eigen::Matrix<T, 3, 1>& rho);
 __device__ BlockRange GetJTJBlockRange(const BlockRange& left, const BlockRange& right);
 
 template<typename T>
-__device__ T MyAtomicAdd(T* address, T val);
+__device__ T atomicAdd(T* address, T val);
 
 } // namespace VINS_FUSION_CUDA_BA
 

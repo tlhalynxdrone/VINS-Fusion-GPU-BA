@@ -44,7 +44,7 @@ include_directories(${CUDA_INCLUDE_DIRS})
 add_subdirectory(src/cuda_bundle_adjustment)
 ######## added for cuda_bundle_adjustment ########
 
-add_library(vins_lib
+add_library(vins_fustion_gpu_lib
     src/estimator/parameters.cpp
     src/estimator/estimator.cpp
     src/estimator/feature_manager.cpp
@@ -61,18 +61,18 @@ add_library(vins_lib
     src/initial/initial_sfm.cpp
     src/initial/initial_ex_rotation.cpp
     src/featureTracker/feature_tracker.cpp)
-target_link_libraries(vins_lib ${catkin_LIBRARIES} ${OpenCV_LIBS} ${CERES_LIBRARIES})
+target_link_libraries(vins_fustion_gpu_lib ${catkin_LIBRARIES} ${OpenCV_LIBS} ${CERES_LIBRARIES})
 
 ######## added for cuda_bundle_adjustment ########
-target_link_libraries(vins_lib CUDAVinsFusionBundleAdjustment)
+target_link_libraries(vins_fustion_gpu_lib CUDAVinsFusionBundleAdjustment)
 ######## added for cuda_bundle_adjustment ########
 
-add_executable(vins_node src/rosNodeTest.cpp)
-target_link_libraries(vins_node vins_lib) 
+add_executable(vins_fusion_gpu_node src/rosNodeTest.cpp)
+target_link_libraries(vins_fusion_gpu_node vins_fustion_gpu_lib) 
 
 add_executable(kitti_odom_test src/KITTIOdomTest.cpp)
-target_link_libraries(kitti_odom_test vins_lib) 
+target_link_libraries(kitti_odom_test vins_fustion_gpu_lib) 
 
 add_executable(kitti_gps_test src/KITTIGPSTest.cpp)
-target_link_libraries(kitti_gps_test vins_lib) 
+target_link_libraries(kitti_gps_test vins_fustion_gpu_lib) 
 

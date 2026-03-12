@@ -683,7 +683,7 @@ __global__ void imu_rhs_0(      // pose_i
     for(int row = 0; row < rhs_0.rows(); row++) {
         T *dst_ptr = (Bpp + row_start + row);
         T src = -rhs_0(row);
-        MyAtomicAdd<T>(dst_ptr, src);
+        atomicAdd<T>(dst_ptr, src);
     }
 
     // ********** end : compute rhs_0 and write it to global memory **********
@@ -736,7 +736,7 @@ __global__ void imu_rhs_1(      // speed_bias_i
     for(int row = 0; row < rhs_1.rows(); row++) {
         T *dst_ptr = (Bpp + row_start + row);
         T src = -rhs_1(row);
-        MyAtomicAdd<T>(dst_ptr, src);
+        atomicAdd<T>(dst_ptr, src);
     }
 
     // ********** end : compute rhs_1 and write it to global memory **********
@@ -789,7 +789,7 @@ __global__ void imu_rhs_2(      // pose_j
     for(int row = 0; row < rhs_2.rows(); row++) {
         T *dst_ptr = (Bpp + row_start + row);
         T src = -rhs_2(row);
-        MyAtomicAdd<T>(dst_ptr, src);
+        atomicAdd<T>(dst_ptr, src);
     }
 
     // ********** end : compute rhs_2 and write it to global memory **********
@@ -842,7 +842,7 @@ __global__ void imu_rhs_3(      // speed_bias_j
     for(int row = 0; row < rhs_3.rows(); row++) {
         T *dst_ptr = (Bpp + row_start + row);
         T src = -rhs_3(row, 0);
-        MyAtomicAdd<T>(dst_ptr, src);
+        atomicAdd<T>(dst_ptr, src);
     }
 
     // ********** end : compute rhs_3 and write it to global memory **********
@@ -903,7 +903,7 @@ __global__ void imu_hessian_00(     // pose_i, pose_i
             T src = hessian_00(row, col);
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -976,11 +976,11 @@ __global__ void imu_hessian_01(     // pose_i, speed_bias_i
             T src = hessian_01(row, col);
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1053,11 +1053,11 @@ __global__ void imu_hessian_02(     // pose_i, pose_j
             T src = hessian_02(row, col);
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1130,11 +1130,11 @@ __global__ void imu_hessian_03(     // pose_i, speed_bias_j
             T src = hessian_03(row, col);
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1197,7 +1197,7 @@ __global__ void imu_hessian_11(     // speed_bias_i, speed_bias_i
             T src = hessian_11(row, col);
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1270,11 +1270,11 @@ __global__ void imu_hessian_12(     // speed_bias_i, pose_j
             T src = hessian_12(row, col);
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1347,11 +1347,11 @@ __global__ void imu_hessian_13(     // speed_bias_i, speed_bias_j
             T src = hessian_13(row, col);
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1414,7 +1414,7 @@ __global__ void imu_hessian_22(     // pose_j, pose_j
             T src = hessian_22(row, col);
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1487,11 +1487,11 @@ __global__ void imu_hessian_23(     // pose_j, speed_bias_j
             T src = hessian_23(row, col);
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1554,7 +1554,7 @@ __global__ void imu_hessian_33(     // speed_bias_j, speed_bias_j
             T src = hessian_33(row, col);
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }

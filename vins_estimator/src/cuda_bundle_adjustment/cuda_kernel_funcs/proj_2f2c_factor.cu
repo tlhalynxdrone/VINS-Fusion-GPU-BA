@@ -1166,7 +1166,7 @@ __global__ void proj_2f2c_rhs_0(    // p_i, q_i
         left_row[1] = jacobian_0[1][i];
         T src = -(left_row[0] * drho_info_residual[0] + left_row[1] * drho_info_residual[1]);
         T *dst_ptr = (Bpp + row_start + i);
-        MyAtomicAdd<T>(dst_ptr, src);
+        atomicAdd<T>(dst_ptr, src);
     }
 
     // ********** end : write outputs **********
@@ -1218,7 +1218,7 @@ __global__ void proj_2f2c_rhs_1(    // p_j, q_j
         left_row[1] = jacobian_1[1][i];
         T src = -(left_row[0] * drho_info_residual[0] + left_row[1] * drho_info_residual[1]);
         T *dst_ptr = (Bpp + row_start + i);
-        MyAtomicAdd<T>(dst_ptr, src);
+        atomicAdd<T>(dst_ptr, src);
     }
 
     // ********** end : write outputs **********
@@ -1270,7 +1270,7 @@ __global__ void proj_2f2c_rhs_2(    // p_ex_0, q_ex_0
         left_row[1] = jacobian_2[1][i];
         T src = -(left_row[0] * drho_info_residual[0] + left_row[1] * drho_info_residual[1]);
         T *dst_ptr = (Bpp + row_start + i);
-        MyAtomicAdd<T>(dst_ptr, src);
+        atomicAdd<T>(dst_ptr, src);
     }
 
     // ********** end : write outputs **********
@@ -1322,7 +1322,7 @@ __global__ void proj_2f2c_rhs_3(    // p_ex_1, q_ex_1
         left_row[1] = jacobian_3[1][i];
         T src = -(left_row[0] * drho_info_residual[0] + left_row[1] * drho_info_residual[1]);
         T *dst_ptr = (Bpp + row_start + i);
-        MyAtomicAdd<T>(dst_ptr, src);
+        atomicAdd<T>(dst_ptr, src);
     }
 
     // ********** end : write outputs **********
@@ -1374,7 +1374,7 @@ __global__ void proj_2f2c_rhs_4(    // inv_depth
         left_row[1] = jacobian_4[1][i];
         T src = -(left_row[0] * drho_info_residual[0] + left_row[1] * drho_info_residual[1]);
         T *dst_ptr = (Bmm + row_start + i);
-        MyAtomicAdd<T>(dst_ptr, src);
+        atomicAdd<T>(dst_ptr, src);
     }
 
     // ********** end : write outputs **********
@@ -1426,7 +1426,7 @@ __global__ void proj_2f2c_rhs_5(    // cur_td
         left_row[1] = jacobian_5[1][i];
         T src = -(left_row[0] * drho_info_residual[0] + left_row[1] * drho_info_residual[1]);
         T *dst_ptr = (Bpp + row_start + i);
-        MyAtomicAdd<T>(dst_ptr, src);
+        atomicAdd<T>(dst_ptr, src);
     }
 
     // ********** end : write outputs **********
@@ -1488,7 +1488,7 @@ __global__ void proj_2f2c_hessian_00(   // pose_i, pose_i
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1561,11 +1561,11 @@ __global__ void proj_2f2c_hessian_01(   // pose_i, pose_j
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1638,11 +1638,11 @@ __global__ void proj_2f2c_hessian_02(   // pose_i, pose_ex_0
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1715,11 +1715,11 @@ __global__ void proj_2f2c_hessian_03(   // pose_i, pose_ex_1
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1794,11 +1794,11 @@ __global__ void proj_2f2c_hessian_04(   // pose_i, inv_depth
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpm + leading_dim_Hpm * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hmp + leading_dim_Hmp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1871,11 +1871,11 @@ __global__ void proj_2f2c_hessian_05(   // pose_i, cur_td
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -1939,7 +1939,7 @@ __global__ void proj_2f2c_hessian_11(   // pose_j, pose_j
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2012,11 +2012,11 @@ __global__ void proj_2f2c_hessian_12(   // pose_j, pose_ex_0
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2089,11 +2089,11 @@ __global__ void proj_2f2c_hessian_13(   // pose_j, pose_ex_1
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2168,11 +2168,11 @@ __global__ void proj_2f2c_hessian_14(   // pose_j, inv_depth
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpm + leading_dim_Hpm * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hmp + leading_dim_Hmp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2245,11 +2245,11 @@ __global__ void proj_2f2c_hessian_15(   // pose_j, cur_td
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2313,7 +2313,7 @@ __global__ void proj_2f2c_hessian_22(   // pose_ex_0, pose_ex_0
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2386,11 +2386,11 @@ __global__ void proj_2f2c_hessian_23(   // pose_ex_0, pose_ex_1
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2465,11 +2465,11 @@ __global__ void proj_2f2c_hessian_24(   // pose_ex_0, inv_depth
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpm + leading_dim_Hpm * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hmp + leading_dim_Hmp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2542,11 +2542,11 @@ __global__ void proj_2f2c_hessian_25(   // pose_ex_0, cur_td
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2610,7 +2610,7 @@ __global__ void proj_2f2c_hessian_33(   // pose_ex_1, pose_ex_1
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2685,11 +2685,11 @@ __global__ void proj_2f2c_hessian_34(   // pose_ex_1, inv_depth
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpm + leading_dim_Hpm * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hmp + leading_dim_Hmp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2762,11 +2762,11 @@ __global__ void proj_2f2c_hessian_35(   // pose_ex_1, cur_td
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2829,7 +2829,7 @@ __global__ void proj_2f2c_hessian_44(   // inv_depth, inv_depth
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hmm_diag + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2904,11 +2904,11 @@ __global__ void proj_2f2c_hessian_45(   // inv_depth, cur_td
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hmp + leading_dim_Hmp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
             if(src != 0.0) {
                 T* dst_ptr = (Hpm + leading_dim_Hpm * (col_start_trans + row) + row_start_trans + col);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }
@@ -2972,7 +2972,7 @@ __global__ void proj_2f2c_hessian_55(   // cur_td, cur_td
             T src = left_row[0] * temp[0] + left_row[1] * temp[1];
             if(src != 0.0) {
                 T* dst_ptr = (Hpp + leading_dim_Hpp * (col_start + col) + row_start + row);
-                MyAtomicAdd<T>(dst_ptr, src);
+                atomicAdd<T>(dst_ptr, src);
             }
         }
     }

@@ -117,11 +117,11 @@ __device__ BlockRange GetJTJBlockRange(const BlockRange& left, const BlockRange&
 // ----------
 
 template<typename T>
-__device__ T MyAtomicAdd(T* address, T val) { return atomicAdd(address, val); }
+__device__ T atomicAdd(T* address, T val) { return atomicAdd(address, val); }
 
 // specialization
 template<>
-__device__ double MyAtomicAdd<double>(double* address, double val) {
+__device__ double atomicAdd<double>(double* address, double val) {
 #if __CUDA_ARCH__ < 600
     unsigned long long int* address_as_ull =
             (unsigned long long int*)address;
@@ -141,7 +141,7 @@ __device__ double MyAtomicAdd<double>(double* address, double val) {
 #endif
 }
 template<>
-__device__ float MyAtomicAdd<float>(float* address, float val) {
+__device__ float atomicAdd<float>(float* address, float val) {
     return atomicAdd(address, val);
 }
 
